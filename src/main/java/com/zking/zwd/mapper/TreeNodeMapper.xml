@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zwd.mapper.TreeNodeMapper" >
+    <resultMap id="BaseResultMap" type="com.zking.zwd.model.TreeNode" >
+        <!--<constructor >
+            <idArg column="tree_node_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="tree_node_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="tree_node_type" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="parent_node_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="url" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="position" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="icon" jdbcType="VARCHAR" javaType="java.lang.String" />
+            &lt;!&ndash;<collection column="id" property="chilidren" select="listChild" ofType="com.zking.zwd.model.TreeNode" />&ndash;&gt;
+
+        </constructor>-->
+        <result column="tree_node_id" property="treeNodeId"/>
+        <result column="tree_node_name" property="treeNodeName"/>
+        <result column="tree_node_type" property="treeNodeType"/>
+        <result column="parent_node_id" property="parentNodeId"/>
+        <result column="url" property="url"/>
+        <result column="position" property="position"/>
+        <result column="icon" property="icon"/>
+        <collection property="treeNodeId" select="listChild" ofType="com.zking.zwd.model.TreeNode"/>
+
+
+    </resultMap>
+    <sql id="Base_Column_List" >
+        tree_node_id, tree_node_name, tree_node_type, parent_node_id, url, position, icon
+    </sql>
+    <select id="listByParentNodeId" resultType="com.zking.zwd.model.TreeNode" parameterType="com.zking.zwd.model.TreeNode">
+      SELECT * from t_tree_node n where 1=1
+        <if test=" TreeNode.parentNodeId = null" >
+            and n.parent_node_id is null
+        </if>
+
+
+    </select>
+
+   <!-- <resultMap id="ParentTreeResultMap" type="com.my.blog.bean.Node">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+
+        <collection column="id" property="chilidren" select="listChild" ofType="com.my.blog.bean.Node" />
+    </resultMap>
+
+    <resultMap id="listChildResultMap" type="com.my.blog.bean.Node">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <collection column="id" property="chilidren"  select="listChild" ofType="com.my.blog.bean.Node" />
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO node(name,parent_id) VALUES (#{name},#{parentId})
+    </insert>
+
+
+    //子级节点查询（listChild）
+    <select id="listChild" resultMap="listChildResultMap">
+        SELECT id,name FROM node  WHERE parent_id = #{id}
+    </select>
+
+
+    <select id="selectById" resultMap="ParentTreeResultMap">
+        SELECT id,name FROM node  WHERE id=#{id}
+    </select>
+    //父级节点查询
+    <select id="getNodeTree" resultMap="ParentTreeResultMap">
+        SELECT id,name FROM node  WHERE parent_id IS null
+    </select>
+
+
+    <update id="update">
+
+        UPDATE node
+        <set>
+            <if test="name!=null"> name=#{name},</if>
+            <if test="parentId !=null"> parent_id=#{parentId}</if>
+        </set>
+        WHERE id=#{id}
+
+    </update>
+
+    <delete id="delete">
+        DELETE  FROM node WHERE id IN
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+
+        </foreach>
+
+    </delete>-->
+
+
+</mapper>
